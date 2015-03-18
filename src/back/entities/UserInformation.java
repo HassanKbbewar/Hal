@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
@@ -16,81 +11,34 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "USER_INFORMATION")
-@NamedQueries({
-    @NamedQuery(name = "UserInformation.findAll", query = "SELECT u FROM UserInformation u"),
-    @NamedQuery(name = "UserInformation.findByUserDetails1", query = "SELECT u FROM UserInformation u WHERE u.userDetails1 = :userDetails1"),
-    @NamedQuery(name = "UserInformation.findByUserDetails2", query = "SELECT u FROM UserInformation u WHERE u.userDetails2 = :userDetails2"),
-    @NamedQuery(name = "UserInformation.findByUserDetails3", query = "SELECT u FROM UserInformation u WHERE u.userDetails3 = :userDetails3"),
-    @NamedQuery(name = "UserInformation.findByUserDetails4", query = "SELECT u FROM UserInformation u WHERE u.userDetails4 = :userDetails4"),
-    @NamedQuery(name = "UserInformation.findByUserPhoneNumber1", query = "SELECT u FROM UserInformation u WHERE u.userPhoneNumber1 = :userPhoneNumber1"),
-    @NamedQuery(name = "UserInformation.findByUserPhoneNumber2", query = "SELECT u FROM UserInformation u WHERE u.userPhoneNumber2 = :userPhoneNumber2"),
-    @NamedQuery(name = "UserInformation.findByUserPhoneNumber3", query = "SELECT u FROM UserInformation u WHERE u.userPhoneNumber3 = :userPhoneNumber3"),
-    @NamedQuery(name = "UserInformation.findByUserDefaultCommsion", query = "SELECT u FROM UserInformation u WHERE u.userDefaultCommsion = :userDefaultCommsion"),
-    @NamedQuery(name = "UserInformation.findByUserPercentageCount", query = "SELECT u FROM UserInformation u WHERE u.userPercentageCount = :userPercentageCount"),
-    @NamedQuery(name = "UserInformation.findByUserDefaultMasrof", query = "SELECT u FROM UserInformation u WHERE u.userDefaultMasrof = :userDefaultMasrof"),
-    @NamedQuery(name = "UserInformation.findByUserMasrofPercentage", query = "SELECT u FROM UserInformation u WHERE u.userMasrofPercentage = :userMasrofPercentage"),
-    @NamedQuery(name = "UserInformation.findByUserTabrizPercentage", query = "SELECT u FROM UserInformation u WHERE u.userTabrizPercentage = :userTabrizPercentage"),
-    @NamedQuery(name = "UserInformation.findByUserTabrizDailyPay", query = "SELECT u FROM UserInformation u WHERE u.userTabrizDailyPay = :userTabrizDailyPay"),
-    @NamedQuery(name = "UserInformation.findByUserTabrizDefaultValue", query = "SELECT u FROM UserInformation u WHERE u.userTabrizDefaultValue = :userTabrizDefaultValue"),
-    @NamedQuery(name = "UserInformation.findByUserCommissionCountToFivePound", query = "SELECT u FROM UserInformation u WHERE u.userCommissionCountToFivePound = :userCommissionCountToFivePound"),
-    @NamedQuery(name = "UserInformation.findByUserInvoiceSize", query = "SELECT u FROM UserInformation u WHERE u.userInvoiceSize = :userInvoiceSize"),
-    @NamedQuery(name = "UserInformation.findByCashierUserName1", query = "SELECT u FROM UserInformation u WHERE u.cashierUserName1 = :cashierUserName1"),
-    @NamedQuery(name = "UserInformation.findByCashierUserName2", query = "SELECT u FROM UserInformation u WHERE u.cashierUserName2 = :cashierUserName2"),
-    @NamedQuery(name = "UserInformation.findByCashierUserName3", query = "SELECT u FROM UserInformation u WHERE u.cashierUserName3 = :cashierUserName3"),
-    @NamedQuery(name = "UserInformation.findByAddSubjectsStatus", query = "SELECT u FROM UserInformation u WHERE u.addSubjectsStatus = :addSubjectsStatus"),
-    @NamedQuery(name = "UserInformation.findByUserDefaultPaidInvoice", query = "SELECT u FROM UserInformation u WHERE u.userDefaultPaidInvoice = :userDefaultPaidInvoice"),
-    @NamedQuery(name = "UserInformation.findByUserCountWatching", query = "SELECT u FROM UserInformation u WHERE u.userCountWatching = :userCountWatching")})
+
 public class UserInformation implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "USER_DETAILS1")
+
     private String userDetails1;
-    @Column(name = "USER_DETAILS2")
     private String userDetails2;
-    @Column(name = "USER_DETAILS3")
     private String userDetails3;
-    @Column(name = "USER_DETAILS4")
     private String userDetails4;
-    @Column(name = "USER_PHONE_NUMBER1")
     private String userPhoneNumber1;
-    @Column(name = "USER_PHONE_NUMBER2")
     private String userPhoneNumber2;
-    @Column(name = "USER_PHONE_NUMBER3")
     private String userPhoneNumber3;
-    @Column(name = "USER_DEFAULT_COMMSION")
     private Short userDefaultCommsion;
-    @Column(name = "USER_PERCENTAGE_COUNT")
     private Short userPercentageCount;
-    @Column(name = "USER_DEFAULT_MASROF")
     private Short userDefaultMasrof;
-    @Column(name = "USER_MASROF_PERCENTAGE")
     private Short userMasrofPercentage;
-    @Column(name = "USER_TABRIZ_PERCENTAGE")
     private Short userTabrizPercentage;
-    @Column(name = "USER_TABRIZ_DAILY_PAY")
     private Boolean userTabrizDailyPay;
-    @Column(name = "USER_TABRIZ_DEFAULT_VALUE")
     private Short userTabrizDefaultValue;
-    @Column(name = "USER_COMMISSION_COUNT_TO_FIVE_POUND")
     private Boolean userCommissionCountToFivePound;
-    @Column(name = "USER_INVOICE_SIZE")
     private Short userInvoiceSize;
-    @Column(name = "CASHIER_USER_NAME1")
     private String cashierUserName1;
-    @Column(name = "CASHIER_USER_NAME2")
     private String cashierUserName2;
-    @Column(name = "CASHIER_USER_NAME3")
     private String cashierUserName3;
-    @Column(name = "ADD_SUBJECTS_STATUS")
     private Boolean addSubjectsStatus;
-    @Column(name = "USER_DEFAULT_PAID_INVOICE")
     private Boolean userDefaultPaidInvoice;
-    @Column(name = "USER_COUNT_WATCHING")
     private Boolean userCountWatching;
 
     public UserInformation() {
@@ -100,6 +48,8 @@ public class UserInformation implements Serializable {
         this.userDetails1 = userDetails1;
     }
 
+    @Id
+    @Column(name = "USER_DETAILS1")
     public String getUserDetails1() {
         return userDetails1;
     }
@@ -108,6 +58,7 @@ public class UserInformation implements Serializable {
         this.userDetails1 = userDetails1;
     }
 
+    @Column(name = "USER_DETAILS2")
     public String getUserDetails2() {
         return userDetails2;
     }
@@ -116,6 +67,7 @@ public class UserInformation implements Serializable {
         this.userDetails2 = userDetails2;
     }
 
+    @Column(name = "USER_DETAILS3")
     public String getUserDetails3() {
         return userDetails3;
     }
@@ -124,6 +76,7 @@ public class UserInformation implements Serializable {
         this.userDetails3 = userDetails3;
     }
 
+    @Column(name = "USER_DETAILS4")
     public String getUserDetails4() {
         return userDetails4;
     }
@@ -132,6 +85,7 @@ public class UserInformation implements Serializable {
         this.userDetails4 = userDetails4;
     }
 
+    @Column(name = "USER_PHONE_NUMBER1")
     public String getUserPhoneNumber1() {
         return userPhoneNumber1;
     }
@@ -140,6 +94,7 @@ public class UserInformation implements Serializable {
         this.userPhoneNumber1 = userPhoneNumber1;
     }
 
+    @Column(name = "USER_PHONE_NUMBER2")
     public String getUserPhoneNumber2() {
         return userPhoneNumber2;
     }
@@ -148,6 +103,7 @@ public class UserInformation implements Serializable {
         this.userPhoneNumber2 = userPhoneNumber2;
     }
 
+    @Column(name = "USER_PHONE_NUMBER3")
     public String getUserPhoneNumber3() {
         return userPhoneNumber3;
     }
@@ -156,6 +112,7 @@ public class UserInformation implements Serializable {
         this.userPhoneNumber3 = userPhoneNumber3;
     }
 
+    @Column(name = "USER_DEFAULT_COMMSION")
     public Short getUserDefaultCommsion() {
         return userDefaultCommsion;
     }
@@ -164,6 +121,7 @@ public class UserInformation implements Serializable {
         this.userDefaultCommsion = userDefaultCommsion;
     }
 
+    @Column(name = "USER_PERCENTAGE_COUNT")
     public Short getUserPercentageCount() {
         return userPercentageCount;
     }
@@ -172,6 +130,7 @@ public class UserInformation implements Serializable {
         this.userPercentageCount = userPercentageCount;
     }
 
+    @Column(name = "USER_DEFAULT_MASROF")
     public Short getUserDefaultMasrof() {
         return userDefaultMasrof;
     }
@@ -180,6 +139,7 @@ public class UserInformation implements Serializable {
         this.userDefaultMasrof = userDefaultMasrof;
     }
 
+    @Column(name = "USER_MASROF_PERCENTAGE")
     public Short getUserMasrofPercentage() {
         return userMasrofPercentage;
     }
@@ -188,6 +148,7 @@ public class UserInformation implements Serializable {
         this.userMasrofPercentage = userMasrofPercentage;
     }
 
+    @Column(name = "USER_TABRIZ_PERCENTAGE")
     public Short getUserTabrizPercentage() {
         return userTabrizPercentage;
     }
@@ -196,6 +157,7 @@ public class UserInformation implements Serializable {
         this.userTabrizPercentage = userTabrizPercentage;
     }
 
+    @Column(name = "USER_TABRIZ_DAILY_PAY")
     public Boolean getUserTabrizDailyPay() {
         return userTabrizDailyPay;
     }
@@ -204,6 +166,7 @@ public class UserInformation implements Serializable {
         this.userTabrizDailyPay = userTabrizDailyPay;
     }
 
+    @Column(name = "USER_TABRIZ_DEFAULT_VALUE")
     public Short getUserTabrizDefaultValue() {
         return userTabrizDefaultValue;
     }
@@ -212,6 +175,7 @@ public class UserInformation implements Serializable {
         this.userTabrizDefaultValue = userTabrizDefaultValue;
     }
 
+    @Column(name = "USER_COMMISSION_COUNT_TO_FIVE_POUND")
     public Boolean getUserCommissionCountToFivePound() {
         return userCommissionCountToFivePound;
     }
@@ -220,6 +184,7 @@ public class UserInformation implements Serializable {
         this.userCommissionCountToFivePound = userCommissionCountToFivePound;
     }
 
+    @Column(name = "USER_INVOICE_SIZE")
     public Short getUserInvoiceSize() {
         return userInvoiceSize;
     }
@@ -228,6 +193,7 @@ public class UserInformation implements Serializable {
         this.userInvoiceSize = userInvoiceSize;
     }
 
+    @Column(name = "CASHIER_USER_NAME1")
     public String getCashierUserName1() {
         return cashierUserName1;
     }
@@ -236,6 +202,7 @@ public class UserInformation implements Serializable {
         this.cashierUserName1 = cashierUserName1;
     }
 
+    @Column(name = "CASHIER_USER_NAME2")
     public String getCashierUserName2() {
         return cashierUserName2;
     }
@@ -244,6 +211,7 @@ public class UserInformation implements Serializable {
         this.cashierUserName2 = cashierUserName2;
     }
 
+    @Column(name = "CASHIER_USER_NAME3")
     public String getCashierUserName3() {
         return cashierUserName3;
     }
@@ -252,6 +220,7 @@ public class UserInformation implements Serializable {
         this.cashierUserName3 = cashierUserName3;
     }
 
+    @Column(name = "ADD_SUBJECTS_STATUS")
     public Boolean getAddSubjectsStatus() {
         return addSubjectsStatus;
     }
@@ -260,6 +229,7 @@ public class UserInformation implements Serializable {
         this.addSubjectsStatus = addSubjectsStatus;
     }
 
+    @Column(name = "USER_DEFAULT_PAID_INVOICE")
     public Boolean getUserDefaultPaidInvoice() {
         return userDefaultPaidInvoice;
     }
@@ -268,6 +238,7 @@ public class UserInformation implements Serializable {
         this.userDefaultPaidInvoice = userDefaultPaidInvoice;
     }
 
+    @Column(name = "USER_COUNT_WATCHING")
     public Boolean getUserCountWatching() {
         return userCountWatching;
     }
@@ -300,5 +271,5 @@ public class UserInformation implements Serializable {
     public String toString() {
         return "back.entities.UserInformation[ userDetails1=" + userDetails1 + " ]";
     }
-    
+
 }

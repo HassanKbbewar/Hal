@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,12 +16,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "CARGO")
@@ -42,38 +39,19 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Cargo.findByCargoReturnValue", query = "SELECT c FROM Cargo c WHERE c.cargoReturnValue = :cargoReturnValue"),
     @NamedQuery(name = "Cargo.findByCargoReturnDate", query = "SELECT c FROM Cargo c WHERE c.cargoReturnDate = :cargoReturnDate")})
 public class Cargo implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "CARGO_ID")
+
     private Integer cargoId;
-    @Column(name = "CARGO_COMMISION")
     private Integer cargoCommision;
-    @Column(name = "CARGO_PAID")
     private Integer cargoPaid;
-    @Column(name = "CARGO_MASHAL")
     private Integer cargoMashal;
-    @Column(name = "CARGO_DEPOSIT")
     private Integer cargoDeposit;
-    @Column(name = "CARGO_DATE")
-    @Temporal(TemporalType.DATE)
     private Date cargoDate;
-    @Column(name = "CARGO_STATUS")
     private Boolean cargoStatus;
-    @Column(name = "CARGO_NOTE")
     private String cargoNote;
-    @Column(name = "CARGO_RETURN_VALUE")
     private Integer cargoReturnValue;
-    @Column(name = "CARGO_RETURN_DATE")
-    @Temporal(TemporalType.DATE)
     private Date cargoReturnDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cargoId", fetch = FetchType.LAZY)
     private List<CargoDetails> cargoDetailsList;
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account accountId;
-    @JoinColumn(name = "DAILY_ID", referencedColumnName = "DAILY_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Daily dailyId;
 
     public Cargo() {
@@ -83,6 +61,13 @@ public class Cargo implements Serializable {
         this.cargoId = cargoId;
     }
 
+    @TableGenerator(name = "CargoGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "CARGO_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "CargoGen")
+    @Id
+    @Column(name = "CARGO_ID")
     public Integer getCargoId() {
         return cargoId;
     }
@@ -91,6 +76,7 @@ public class Cargo implements Serializable {
         this.cargoId = cargoId;
     }
 
+    @Column(name = "CARGO_COMMISION")
     public Integer getCargoCommision() {
         return cargoCommision;
     }
@@ -99,6 +85,7 @@ public class Cargo implements Serializable {
         this.cargoCommision = cargoCommision;
     }
 
+    @Column(name = "CARGO_PAID")
     public Integer getCargoPaid() {
         return cargoPaid;
     }
@@ -107,6 +94,7 @@ public class Cargo implements Serializable {
         this.cargoPaid = cargoPaid;
     }
 
+    @Column(name = "CARGO_MASHAL")
     public Integer getCargoMashal() {
         return cargoMashal;
     }
@@ -115,6 +103,7 @@ public class Cargo implements Serializable {
         this.cargoMashal = cargoMashal;
     }
 
+    @Column(name = "CARGO_DEPOSIT")
     public Integer getCargoDeposit() {
         return cargoDeposit;
     }
@@ -123,6 +112,8 @@ public class Cargo implements Serializable {
         this.cargoDeposit = cargoDeposit;
     }
 
+    @Column(name = "CARGO_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getCargoDate() {
         return cargoDate;
     }
@@ -131,6 +122,7 @@ public class Cargo implements Serializable {
         this.cargoDate = cargoDate;
     }
 
+    @Column(name = "CARGO_STATUS")
     public Boolean getCargoStatus() {
         return cargoStatus;
     }
@@ -139,6 +131,7 @@ public class Cargo implements Serializable {
         this.cargoStatus = cargoStatus;
     }
 
+    @Column(name = "CARGO_NOTE")
     public String getCargoNote() {
         return cargoNote;
     }
@@ -147,6 +140,7 @@ public class Cargo implements Serializable {
         this.cargoNote = cargoNote;
     }
 
+    @Column(name = "CARGO_RETURN_VALUE")
     public Integer getCargoReturnValue() {
         return cargoReturnValue;
     }
@@ -155,6 +149,8 @@ public class Cargo implements Serializable {
         this.cargoReturnValue = cargoReturnValue;
     }
 
+    @Column(name = "CARGO_RETURN_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getCargoReturnDate() {
         return cargoReturnDate;
     }
@@ -163,6 +159,7 @@ public class Cargo implements Serializable {
         this.cargoReturnDate = cargoReturnDate;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cargoId")
     public List<CargoDetails> getCargoDetailsList() {
         return cargoDetailsList;
     }
@@ -171,6 +168,8 @@ public class Cargo implements Serializable {
         this.cargoDetailsList = cargoDetailsList;
     }
 
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(optional = false)
     public Account getAccountId() {
         return accountId;
     }
@@ -179,6 +178,8 @@ public class Cargo implements Serializable {
         this.accountId = accountId;
     }
 
+    @JoinColumn(name = "DAILY_ID", referencedColumnName = "DAILY_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public Daily getDailyId() {
         return dailyId;
     }
@@ -211,5 +212,5 @@ public class Cargo implements Serializable {
     public String toString() {
         return "back.entities.Cargo[ cargoId=" + cargoId + " ]";
     }
-    
+
 }

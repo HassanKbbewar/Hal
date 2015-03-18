@@ -1,28 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "MERGED_INVOICES")
@@ -33,21 +30,13 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "MergedInvoices.findByMergeDate", query = "SELECT m FROM MergedInvoices m WHERE m.mergeDate = :mergeDate"),
     @NamedQuery(name = "MergedInvoices.findByMergeNote", query = "SELECT m FROM MergedInvoices m WHERE m.mergeNote = :mergeNote")})
 public class MergedInvoices implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "MERGE_ID")
-    private Integer mergeId;
-    @Column(name = "MERGE_NAME")
-    private String mergeName;
-    @Column(name = "MERGE_DATE")
-    @Temporal(TemporalType.DATE)
-    private Date mergeDate;
-    @Column(name = "MERGE_NOTE")
-    private String mergeNote;
-    @OneToMany(mappedBy = "mergeId", fetch = FetchType.LAZY)
-    private List<Invoices> invoicesList;
 
+    private Integer mergeId;
+    private String mergeName;
+    private Date mergeDate;
+    private String mergeNote;
+    private List<Invoices> invoicesList;
+    
     public MergedInvoices() {
     }
 
@@ -55,6 +44,13 @@ public class MergedInvoices implements Serializable {
         this.mergeId = mergeId;
     }
 
+    @TableGenerator(name = "MergedInvoicesGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "MERGED_INVOICES_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "MergedInvoicesGen")
+    @Id
+    @Column(name = "MERGE_ID")
     public Integer getMergeId() {
         return mergeId;
     }
@@ -63,6 +59,7 @@ public class MergedInvoices implements Serializable {
         this.mergeId = mergeId;
     }
 
+    @Column(name = "MERGE_NAME")
     public String getMergeName() {
         return mergeName;
     }
@@ -71,6 +68,8 @@ public class MergedInvoices implements Serializable {
         this.mergeName = mergeName;
     }
 
+    @Column(name = "MERGE_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getMergeDate() {
         return mergeDate;
     }
@@ -79,6 +78,7 @@ public class MergedInvoices implements Serializable {
         this.mergeDate = mergeDate;
     }
 
+    @Column(name = "MERGE_NOTE")
     public String getMergeNote() {
         return mergeNote;
     }
@@ -87,6 +87,7 @@ public class MergedInvoices implements Serializable {
         this.mergeNote = mergeNote;
     }
 
+    @OneToMany(mappedBy = "mergeId", fetch = FetchType.LAZY)
     public List<Invoices> getInvoicesList() {
         return invoicesList;
     }
@@ -119,5 +120,5 @@ public class MergedInvoices implements Serializable {
     public String toString() {
         return "back.entities.MergedInvoices[ mergeId=" + mergeId + " ]";
     }
-    
+
 }

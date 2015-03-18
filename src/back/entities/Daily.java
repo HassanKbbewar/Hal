@@ -1,29 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "DAILY")
@@ -35,30 +32,13 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Daily.findByDailyType", query = "SELECT d FROM Daily d WHERE d.dailyType = :dailyType"),
     @NamedQuery(name = "Daily.findByDailyInvoiceNumber", query = "SELECT d FROM Daily d WHERE d.dailyInvoiceNumber = :dailyInvoiceNumber")})
 public class Daily implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "DAILY_ID")
+
     private Integer dailyId;
-    @Column(name = "DAILY_DATE")
-    @Temporal(TemporalType.DATE)
     private Date dailyDate;
-    @Column(name = "DAILY_NOTE")
     private String dailyNote;
-    @Column(name = "DAILY_TYPE")
     private Integer dailyType;
-    @Column(name = "DAILY_INVOICE_NUMBER")
     private Integer dailyInvoiceNumber;
-    @OneToMany(mappedBy = "dailyId", fetch = FetchType.LAZY)
-    private List<CommissionSales> commissionSalesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dailyId", fetch = FetchType.LAZY)
     private List<DailyDetails> dailyDetailsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dailyId", fetch = FetchType.LAZY)
-    private List<Cargo> cargoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dailyId", fetch = FetchType.LAZY)
-    private List<CashDaily> cashDailyList;
-    @OneToMany(mappedBy = "dailyId", fetch = FetchType.LAZY)
-    private List<BuyingGoods> buyingGoodsList;
 
     public Daily() {
     }
@@ -67,6 +47,13 @@ public class Daily implements Serializable {
         this.dailyId = dailyId;
     }
 
+    @TableGenerator(name = "DailyGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "DAILY_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "DailyGen")
+    @Id
+    @Column(name = "DAILY_ID")
     public Integer getDailyId() {
         return dailyId;
     }
@@ -75,6 +62,8 @@ public class Daily implements Serializable {
         this.dailyId = dailyId;
     }
 
+    @Column(name = "DAILY_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getDailyDate() {
         return dailyDate;
     }
@@ -83,6 +72,7 @@ public class Daily implements Serializable {
         this.dailyDate = dailyDate;
     }
 
+    @Column(name = "DAILY_NOTE")
     public String getDailyNote() {
         return dailyNote;
     }
@@ -91,6 +81,7 @@ public class Daily implements Serializable {
         this.dailyNote = dailyNote;
     }
 
+    @Column(name = "DAILY_TYPE")
     public Integer getDailyType() {
         return dailyType;
     }
@@ -99,6 +90,7 @@ public class Daily implements Serializable {
         this.dailyType = dailyType;
     }
 
+    @Column(name = "DAILY_INVOICE_NUMBER")
     public Integer getDailyInvoiceNumber() {
         return dailyInvoiceNumber;
     }
@@ -107,44 +99,13 @@ public class Daily implements Serializable {
         this.dailyInvoiceNumber = dailyInvoiceNumber;
     }
 
-    public List<CommissionSales> getCommissionSalesList() {
-        return commissionSalesList;
-    }
-
-    public void setCommissionSalesList(List<CommissionSales> commissionSalesList) {
-        this.commissionSalesList = commissionSalesList;
-    }
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dailyId", fetch = FetchType.LAZY)
     public List<DailyDetails> getDailyDetailsList() {
         return dailyDetailsList;
     }
 
     public void setDailyDetailsList(List<DailyDetails> dailyDetailsList) {
         this.dailyDetailsList = dailyDetailsList;
-    }
-
-    public List<Cargo> getCargoList() {
-        return cargoList;
-    }
-
-    public void setCargoList(List<Cargo> cargoList) {
-        this.cargoList = cargoList;
-    }
-
-    public List<CashDaily> getCashDailyList() {
-        return cashDailyList;
-    }
-
-    public void setCashDailyList(List<CashDaily> cashDailyList) {
-        this.cashDailyList = cashDailyList;
-    }
-
-    public List<BuyingGoods> getBuyingGoodsList() {
-        return buyingGoodsList;
-    }
-
-    public void setBuyingGoodsList(List<BuyingGoods> buyingGoodsList) {
-        this.buyingGoodsList = buyingGoodsList;
     }
 
     @Override
@@ -171,5 +132,5 @@ public class Daily implements Serializable {
     public String toString() {
         return "back.entities.Daily[ dailyId=" + dailyId + " ]";
     }
-    
+
 }

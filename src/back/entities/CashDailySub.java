@@ -1,25 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "CASH_DAILY_SUB")
@@ -30,22 +27,12 @@ import javax.persistence.Table;
     @NamedQuery(name = "CashDailySub.findByBoxDebit", query = "SELECT c FROM CashDailySub c WHERE c.boxDebit = :boxDebit"),
     @NamedQuery(name = "CashDailySub.findByNote", query = "SELECT c FROM CashDailySub c WHERE c.note = :note")})
 public class CashDailySub implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "CASH_SUB_ID")
+
     private Integer cashSubId;
-    @Column(name = "BOX_CREDIT")
     private Integer boxCredit;
-    @Column(name = "BOX_DEBIT")
     private Integer boxDebit;
-    @Column(name = "NOTE")
     private String note;
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account accountId;
-    @JoinColumn(name = "CASH_DAILY_ID", referencedColumnName = "CASH_DAILY_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CashDaily cashDailyId;
 
     public CashDailySub() {
@@ -55,6 +42,13 @@ public class CashDailySub implements Serializable {
         this.cashSubId = cashSubId;
     }
 
+    @TableGenerator(name = "CashDailySubGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "CASH_DAILY_SUB_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "CashDailySubGen")
+    @Id
+    @Column(name = "CASH_SUB_ID")
     public Integer getCashSubId() {
         return cashSubId;
     }
@@ -63,6 +57,7 @@ public class CashDailySub implements Serializable {
         this.cashSubId = cashSubId;
     }
 
+    @Column(name = "BOX_CREDIT")
     public Integer getBoxCredit() {
         return boxCredit;
     }
@@ -71,6 +66,7 @@ public class CashDailySub implements Serializable {
         this.boxCredit = boxCredit;
     }
 
+    @Column(name = "BOX_DEBIT")
     public Integer getBoxDebit() {
         return boxDebit;
     }
@@ -79,6 +75,7 @@ public class CashDailySub implements Serializable {
         this.boxDebit = boxDebit;
     }
 
+    @Column(name = "NOTE")
     public String getNote() {
         return note;
     }
@@ -87,6 +84,8 @@ public class CashDailySub implements Serializable {
         this.note = note;
     }
 
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public Account getAccountId() {
         return accountId;
     }
@@ -95,6 +94,8 @@ public class CashDailySub implements Serializable {
         this.accountId = accountId;
     }
 
+    @JoinColumn(name = "CASH_DAILY_ID", referencedColumnName = "CASH_DAILY_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public CashDaily getCashDailyId() {
         return cashDailyId;
     }
@@ -127,5 +128,5 @@ public class CashDailySub implements Serializable {
     public String toString() {
         return "back.entities.CashDailySub[ cashSubId=" + cashSubId + " ]";
     }
-    
+
 }

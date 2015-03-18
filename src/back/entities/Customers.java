@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +14,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "CUSTOMERS")
@@ -44,54 +38,27 @@ import javax.persistence.Table;
     @NamedQuery(name = "Customers.findByCustomerCurrentBalance", query = "SELECT c FROM Customers c WHERE c.customerCurrentBalance = :customerCurrentBalance"),
     @NamedQuery(name = "Customers.findByCustomerNote", query = "SELECT c FROM Customers c WHERE c.customerNote = :customerNote")})
 public class Customers implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "CUSTOMER_ID")
+
     private Integer customerId;
-    @Column(name = "CUSTOMER_RESPONSEBLE")
     private String customerResponseble;
-    @Column(name = "CUSTOMER_CITY")
     private String customerCity;
-    @Column(name = "CUSTOMER_ADRESS")
     private String customerAdress;
-    @Column(name = "CUSTOMER_PHONENUMBER")
     private Integer customerPhonenumber;
-    @Column(name = "CUSTOMER_PHONENUMBER2")
     private Integer customerPhonenumber2;
-    @Column(name = "CUSTOMER_EMAIL")
     private String customerEmail;
-    @Column(name = "CUSTOMER_COMMISION")
     private Integer customerCommision;
-    @Column(name = "CUSTOMER_PICE_RETURN")
     private Integer customerPiceReturn;
-    @Column(name = "CUSTOMER_SPECIAL_COMMISION_RETURN")
     private Integer customerSpecialCommisionReturn;
-    @Column(name = "CUSTOMER_BILL_SIZE")
     private Integer customerBillSize;
-    @Column(name = "CUSTOMER_MASHAL_TYPE")
     private Short customerMashalType;
-    @Column(name = "CUSTOMER_MASHAL_PRICE")
     private Integer customerMashalPrice;
-    @Column(name = "CUSTOMER_MASHAL_TYPE_TO")
     private Integer customerMashalTypeTo;
-    @Column(name = "CUSTOMER_OPENING_BALANCE")
     private Integer customerOpeningBalance;
-    @Column(name = "CUSTOMER_CURRENT_BALANCE")
     private Integer customerCurrentBalance;
-    @Column(name = "CUSTOMER_NOTE")
     private String customerNote;
-    @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "ACCOUNT_ID", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
     private Account account;
-    @JoinColumn(name = "CUSTOMER_COMMISION_RETURN_TO", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Account customerCommisionReturnTo;
-    @JoinColumn(name = "CUSTOMER_PICE_RETURN_TO", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Account customerPiceReturnTo;
-    @JoinColumn(name = "CUSTOMER_SPECIAL_COMMISION_RETURN_TO", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Account customerSpecialCommisionReturnTo;
 
     public Customers() {
@@ -101,6 +68,8 @@ public class Customers implements Serializable {
         this.customerId = customerId;
     }
 
+    @Id
+    @Column(name = "CUSTOMER_ID")
     public Integer getCustomerId() {
         return customerId;
     }
@@ -109,6 +78,7 @@ public class Customers implements Serializable {
         this.customerId = customerId;
     }
 
+    @Column(name = "CUSTOMER_RESPONSEBLE")
     public String getCustomerResponseble() {
         return customerResponseble;
     }
@@ -117,6 +87,7 @@ public class Customers implements Serializable {
         this.customerResponseble = customerResponseble;
     }
 
+    @Column(name = "CUSTOMER_CITY")
     public String getCustomerCity() {
         return customerCity;
     }
@@ -125,6 +96,7 @@ public class Customers implements Serializable {
         this.customerCity = customerCity;
     }
 
+    @Column(name = "CUSTOMER_ADRESS")
     public String getCustomerAdress() {
         return customerAdress;
     }
@@ -133,6 +105,7 @@ public class Customers implements Serializable {
         this.customerAdress = customerAdress;
     }
 
+    @Column(name = "CUSTOMER_PHONENUMBER")
     public Integer getCustomerPhonenumber() {
         return customerPhonenumber;
     }
@@ -141,6 +114,7 @@ public class Customers implements Serializable {
         this.customerPhonenumber = customerPhonenumber;
     }
 
+    @Column(name = "CUSTOMER_PHONENUMBER2")
     public Integer getCustomerPhonenumber2() {
         return customerPhonenumber2;
     }
@@ -149,6 +123,7 @@ public class Customers implements Serializable {
         this.customerPhonenumber2 = customerPhonenumber2;
     }
 
+    @Column(name = "CUSTOMER_EMAIL")
     public String getCustomerEmail() {
         return customerEmail;
     }
@@ -157,6 +132,7 @@ public class Customers implements Serializable {
         this.customerEmail = customerEmail;
     }
 
+    @Column(name = "CUSTOMER_COMMISION")
     public Integer getCustomerCommision() {
         return customerCommision;
     }
@@ -165,6 +141,7 @@ public class Customers implements Serializable {
         this.customerCommision = customerCommision;
     }
 
+    @Column(name = "CUSTOMER_PICE_RETURN")
     public Integer getCustomerPiceReturn() {
         return customerPiceReturn;
     }
@@ -173,6 +150,7 @@ public class Customers implements Serializable {
         this.customerPiceReturn = customerPiceReturn;
     }
 
+    @Column(name = "CUSTOMER_SPECIAL_COMMISION_RETURN")
     public Integer getCustomerSpecialCommisionReturn() {
         return customerSpecialCommisionReturn;
     }
@@ -181,6 +159,7 @@ public class Customers implements Serializable {
         this.customerSpecialCommisionReturn = customerSpecialCommisionReturn;
     }
 
+    @Column(name = "CUSTOMER_BILL_SIZE")
     public Integer getCustomerBillSize() {
         return customerBillSize;
     }
@@ -189,6 +168,7 @@ public class Customers implements Serializable {
         this.customerBillSize = customerBillSize;
     }
 
+    @Column(name = "CUSTOMER_MASHAL_TYPE")
     public Short getCustomerMashalType() {
         return customerMashalType;
     }
@@ -197,6 +177,7 @@ public class Customers implements Serializable {
         this.customerMashalType = customerMashalType;
     }
 
+    @Column(name = "CUSTOMER_MASHAL_PRICE")
     public Integer getCustomerMashalPrice() {
         return customerMashalPrice;
     }
@@ -205,6 +186,7 @@ public class Customers implements Serializable {
         this.customerMashalPrice = customerMashalPrice;
     }
 
+    @Column(name = "CUSTOMER_MASHAL_TYPE_TO")
     public Integer getCustomerMashalTypeTo() {
         return customerMashalTypeTo;
     }
@@ -213,6 +195,7 @@ public class Customers implements Serializable {
         this.customerMashalTypeTo = customerMashalTypeTo;
     }
 
+    @Column(name = "CUSTOMER_OPENING_BALANCE")
     public Integer getCustomerOpeningBalance() {
         return customerOpeningBalance;
     }
@@ -221,6 +204,7 @@ public class Customers implements Serializable {
         this.customerOpeningBalance = customerOpeningBalance;
     }
 
+    @Column(name = "CUSTOMER_CURRENT_BALANCE")
     public Integer getCustomerCurrentBalance() {
         return customerCurrentBalance;
     }
@@ -229,6 +213,7 @@ public class Customers implements Serializable {
         this.customerCurrentBalance = customerCurrentBalance;
     }
 
+    @Column(name = "CUSTOMER_NOTE")
     public String getCustomerNote() {
         return customerNote;
     }
@@ -237,6 +222,8 @@ public class Customers implements Serializable {
         this.customerNote = customerNote;
     }
 
+    @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "ACCOUNT_ID", insertable = false, updatable = false)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     public Account getAccount() {
         return account;
     }
@@ -245,6 +232,8 @@ public class Customers implements Serializable {
         this.account = account;
     }
 
+    @JoinColumn(name = "CUSTOMER_COMMISION_RETURN_TO", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     public Account getCustomerCommisionReturnTo() {
         return customerCommisionReturnTo;
     }
@@ -253,6 +242,8 @@ public class Customers implements Serializable {
         this.customerCommisionReturnTo = customerCommisionReturnTo;
     }
 
+    @JoinColumn(name = "CUSTOMER_PICE_RETURN_TO", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     public Account getCustomerPiceReturnTo() {
         return customerPiceReturnTo;
     }
@@ -261,6 +252,8 @@ public class Customers implements Serializable {
         this.customerPiceReturnTo = customerPiceReturnTo;
     }
 
+    @JoinColumn(name = "CUSTOMER_SPECIAL_COMMISION_RETURN_TO", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     public Account getCustomerSpecialCommisionReturnTo() {
         return customerSpecialCommisionReturnTo;
     }
@@ -293,5 +286,5 @@ public class Customers implements Serializable {
     public String toString() {
         return "back.entities.Customers[ customerId=" + customerId + " ]";
     }
-    
+
 }

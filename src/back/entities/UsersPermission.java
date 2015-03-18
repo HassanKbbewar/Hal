@@ -1,24 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "USERS_PERMISSION")
@@ -30,24 +28,13 @@ import javax.persistence.Table;
     @NamedQuery(name = "UsersPermission.findByFormMovmentStatus", query = "SELECT u FROM UsersPermission u WHERE u.formMovmentStatus = :formMovmentStatus"),
     @NamedQuery(name = "UsersPermission.findByFormUpdateStatus", query = "SELECT u FROM UsersPermission u WHERE u.formUpdateStatus = :formUpdateStatus")})
 public class UsersPermission implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "PERMISSION_ID")
+
     private Integer permissionId;
-    @Column(name = "FORM_ENTRY_STATUS")
     private Boolean formEntryStatus;
-    @Column(name = "FORM_PRINT_STATUS")
     private Boolean formPrintStatus;
-    @Column(name = "FORM_MOVMENT_STATUS")
     private Boolean formMovmentStatus;
-    @Column(name = "FORM_UPDATE_STATUS")
     private Boolean formUpdateStatus;
-    @JoinColumn(name = "FORM_ID", referencedColumnName = "FORM_ID")
-    @ManyToOne(optional = false)
     private Forms formId;
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
-    @ManyToOne(optional = false)
     private Users userId;
 
     public UsersPermission() {
@@ -57,6 +44,13 @@ public class UsersPermission implements Serializable {
         this.permissionId = permissionId;
     }
 
+    @TableGenerator(name = "UsersPermissionGen", table = "MAIN_SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "USERS_PERMISSION_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "UsersPermissionGen")
+    @Id
+    @Column(name = "PERMISSION_ID")
     public Integer getPermissionId() {
         return permissionId;
     }
@@ -65,6 +59,7 @@ public class UsersPermission implements Serializable {
         this.permissionId = permissionId;
     }
 
+    @Column(name = "FORM_ENTRY_STATUS")
     public Boolean getFormEntryStatus() {
         return formEntryStatus;
     }
@@ -73,6 +68,7 @@ public class UsersPermission implements Serializable {
         this.formEntryStatus = formEntryStatus;
     }
 
+    @Column(name = "FORM_PRINT_STATUS")
     public Boolean getFormPrintStatus() {
         return formPrintStatus;
     }
@@ -81,6 +77,7 @@ public class UsersPermission implements Serializable {
         this.formPrintStatus = formPrintStatus;
     }
 
+    @Column(name = "FORM_MOVMENT_STATUS")
     public Boolean getFormMovmentStatus() {
         return formMovmentStatus;
     }
@@ -89,6 +86,7 @@ public class UsersPermission implements Serializable {
         this.formMovmentStatus = formMovmentStatus;
     }
 
+    @Column(name = "FORM_UPDATE_STATUS")
     public Boolean getFormUpdateStatus() {
         return formUpdateStatus;
     }
@@ -97,6 +95,8 @@ public class UsersPermission implements Serializable {
         this.formUpdateStatus = formUpdateStatus;
     }
 
+    @JoinColumn(name = "FORM_ID", referencedColumnName = "FORM_ID")
+    @ManyToOne(optional = false)
     public Forms getFormId() {
         return formId;
     }
@@ -105,6 +105,8 @@ public class UsersPermission implements Serializable {
         this.formId = formId;
     }
 
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
+    @ManyToOne(optional = false)
     public Users getUserId() {
         return userId;
     }
@@ -137,5 +139,5 @@ public class UsersPermission implements Serializable {
     public String toString() {
         return "back.entities.UsersPermission[ permissionId=" + permissionId + " ]";
     }
-    
+
 }

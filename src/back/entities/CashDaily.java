@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,12 +16,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "CASH_DAILY")
@@ -35,20 +32,11 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "CashDaily.findByCashDailyDate", query = "SELECT c FROM CashDaily c WHERE c.cashDailyDate = :cashDailyDate"),
     @NamedQuery(name = "CashDaily.findByCashDailyTarhelStatus", query = "SELECT c FROM CashDaily c WHERE c.cashDailyTarhelStatus = :cashDailyTarhelStatus")})
 public class CashDaily implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "CASH_DAILY_ID")
+
     private Integer cashDailyId;
-    @Column(name = "CASH_DAILY_DATE")
-    @Temporal(TemporalType.DATE)
     private Date cashDailyDate;
-    @Column(name = "CASH_DAILY_TARHEL_STATUS")
     private Boolean cashDailyTarhelStatus;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cashDailyId", fetch = FetchType.LAZY)
     private List<CashDailySub> cashDailySubList;
-    @JoinColumn(name = "DAILY_ID", referencedColumnName = "DAILY_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Daily dailyId;
 
     public CashDaily() {
@@ -58,6 +46,13 @@ public class CashDaily implements Serializable {
         this.cashDailyId = cashDailyId;
     }
 
+    @TableGenerator(name = "CashDailyGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "CASH_DAILY_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "CashDailyGen")
+    @Id
+    @Column(name = "CASH_DAILY_ID")
     public Integer getCashDailyId() {
         return cashDailyId;
     }
@@ -66,6 +61,8 @@ public class CashDaily implements Serializable {
         this.cashDailyId = cashDailyId;
     }
 
+    @Column(name = "CASH_DAILY_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getCashDailyDate() {
         return cashDailyDate;
     }
@@ -74,6 +71,7 @@ public class CashDaily implements Serializable {
         this.cashDailyDate = cashDailyDate;
     }
 
+    @Column(name = "CASH_DAILY_TARHEL_STATUS")
     public Boolean getCashDailyTarhelStatus() {
         return cashDailyTarhelStatus;
     }
@@ -82,6 +80,7 @@ public class CashDaily implements Serializable {
         this.cashDailyTarhelStatus = cashDailyTarhelStatus;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cashDailyId", fetch = FetchType.LAZY)
     public List<CashDailySub> getCashDailySubList() {
         return cashDailySubList;
     }
@@ -90,6 +89,8 @@ public class CashDaily implements Serializable {
         this.cashDailySubList = cashDailySubList;
     }
 
+    @JoinColumn(name = "DAILY_ID", referencedColumnName = "DAILY_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public Daily getDailyId() {
         return dailyId;
     }
@@ -122,5 +123,5 @@ public class CashDaily implements Serializable {
     public String toString() {
         return "back.entities.CashDaily[ cashDailyId=" + cashDailyId + " ]";
     }
-    
+
 }

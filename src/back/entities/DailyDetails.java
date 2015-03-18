@@ -1,25 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "DAILY_DETAILS")
@@ -30,22 +27,12 @@ import javax.persistence.Table;
     @NamedQuery(name = "DailyDetails.findByDailyCredit", query = "SELECT d FROM DailyDetails d WHERE d.dailyCredit = :dailyCredit"),
     @NamedQuery(name = "DailyDetails.findByDailyDetails", query = "SELECT d FROM DailyDetails d WHERE d.dailyDetails = :dailyDetails")})
 public class DailyDetails implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "DAILY_DETAIL_ID")
+
     private Integer dailyDetailId;
-    @Column(name = "DAILY_DEBIT")
     private Integer dailyDebit;
-    @Column(name = "DAILY_CREDIT")
     private Integer dailyCredit;
-    @Column(name = "DAILY_DETAILS")
     private String dailyDetails;
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account accountId;
-    @JoinColumn(name = "DAILY_ID", referencedColumnName = "DAILY_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Daily dailyId;
 
     public DailyDetails() {
@@ -55,6 +42,13 @@ public class DailyDetails implements Serializable {
         this.dailyDetailId = dailyDetailId;
     }
 
+    @TableGenerator(name = "DailyDetailsGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "DAILY_DETAILS_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "DailyDetailsGen")
+    @Id
+    @Column(name = "DAILY_DETAIL_ID")
     public Integer getDailyDetailId() {
         return dailyDetailId;
     }
@@ -63,6 +57,7 @@ public class DailyDetails implements Serializable {
         this.dailyDetailId = dailyDetailId;
     }
 
+    @Column(name = "DAILY_DEBIT")
     public Integer getDailyDebit() {
         return dailyDebit;
     }
@@ -71,6 +66,7 @@ public class DailyDetails implements Serializable {
         this.dailyDebit = dailyDebit;
     }
 
+    @Column(name = "DAILY_CREDIT")
     public Integer getDailyCredit() {
         return dailyCredit;
     }
@@ -79,6 +75,7 @@ public class DailyDetails implements Serializable {
         this.dailyCredit = dailyCredit;
     }
 
+    @Column(name = "DAILY_DETAILS")
     public String getDailyDetails() {
         return dailyDetails;
     }
@@ -87,6 +84,8 @@ public class DailyDetails implements Serializable {
         this.dailyDetails = dailyDetails;
     }
 
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public Account getAccountId() {
         return accountId;
     }
@@ -95,6 +94,8 @@ public class DailyDetails implements Serializable {
         this.accountId = accountId;
     }
 
+    @JoinColumn(name = "DAILY_ID", referencedColumnName = "DAILY_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public Daily getDailyId() {
         return dailyId;
     }
@@ -127,5 +128,5 @@ public class DailyDetails implements Serializable {
     public String toString() {
         return "back.entities.DailyDetails[ dailyDetailId=" + dailyDetailId + " ]";
     }
-    
+
 }

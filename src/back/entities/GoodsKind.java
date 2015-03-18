@@ -1,22 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "GOODS_KIND")
@@ -34,30 +31,17 @@ import javax.persistence.Table;
     @NamedQuery(name = "GoodsKind.findByKindHeighstValue", query = "SELECT g FROM GoodsKind g WHERE g.kindHeighstValue = :kindHeighstValue"),
     @NamedQuery(name = "GoodsKind.findByKindTabrizValue", query = "SELECT g FROM GoodsKind g WHERE g.kindTabrizValue = :kindTabrizValue")})
 public class GoodsKind implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "KIND_ID")
+
     private Integer kindId;
-    @Column(name = "KIND_NAME")
     private String kindName;
-    @Column(name = "KIND_MASROF_BY_KILO")
     private Integer kindMasrofByKilo;
-    @Column(name = "KIND_MASROF_BY_PIECE")
     private Integer kindMasrofByPiece;
-    @Column(name = "KIND_COMMISSION_BY_KIND")
     private Integer kindCommissionByKind;
-    @Column(name = "KIND_COMMISSION_BY_PIECCE")
     private Integer kindCommissionByPiecce;
-    @Column(name = "KIND_COMMISSION_BY_KILO")
     private Integer kindCommissionByKilo;
-    @Column(name = "KIND_TAMWEN_VALUE")
     private Integer kindTamwenValue;
-    @Column(name = "KIND_LOWEST_VALUE")
     private Integer kindLowestValue;
-    @Column(name = "KIND_HEIGHST_VALUE")
     private Integer kindHeighstValue;
-    @Column(name = "KIND_TABRIZ_VALUE")
     private Integer kindTabrizValue;
 
     public GoodsKind() {
@@ -67,6 +51,13 @@ public class GoodsKind implements Serializable {
         this.kindId = kindId;
     }
 
+    @TableGenerator(name = "GoodsKindGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "GOODS_KIND_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "GoodsKindGen")
+    @Id
+    @Column(name = "KIND_ID")
     public Integer getKindId() {
         return kindId;
     }
@@ -75,6 +66,7 @@ public class GoodsKind implements Serializable {
         this.kindId = kindId;
     }
 
+    @Column(name = "KIND_NAME")
     public String getKindName() {
         return kindName;
     }
@@ -83,6 +75,7 @@ public class GoodsKind implements Serializable {
         this.kindName = kindName;
     }
 
+    @Column(name = "KIND_MASROF_BY_KILO")
     public Integer getKindMasrofByKilo() {
         return kindMasrofByKilo;
     }
@@ -91,6 +84,7 @@ public class GoodsKind implements Serializable {
         this.kindMasrofByKilo = kindMasrofByKilo;
     }
 
+    @Column(name = "KIND_MASROF_BY_PIECE")
     public Integer getKindMasrofByPiece() {
         return kindMasrofByPiece;
     }
@@ -99,6 +93,7 @@ public class GoodsKind implements Serializable {
         this.kindMasrofByPiece = kindMasrofByPiece;
     }
 
+    @Column(name = "KIND_COMMISSION_BY_KIND")
     public Integer getKindCommissionByKind() {
         return kindCommissionByKind;
     }
@@ -107,6 +102,7 @@ public class GoodsKind implements Serializable {
         this.kindCommissionByKind = kindCommissionByKind;
     }
 
+    @Column(name = "KIND_COMMISSION_BY_PIECCE")
     public Integer getKindCommissionByPiecce() {
         return kindCommissionByPiecce;
     }
@@ -115,6 +111,7 @@ public class GoodsKind implements Serializable {
         this.kindCommissionByPiecce = kindCommissionByPiecce;
     }
 
+    @Column(name = "KIND_COMMISSION_BY_KILO")
     public Integer getKindCommissionByKilo() {
         return kindCommissionByKilo;
     }
@@ -123,6 +120,7 @@ public class GoodsKind implements Serializable {
         this.kindCommissionByKilo = kindCommissionByKilo;
     }
 
+    @Column(name = "KIND_TAMWEN_VALUE")
     public Integer getKindTamwenValue() {
         return kindTamwenValue;
     }
@@ -131,6 +129,7 @@ public class GoodsKind implements Serializable {
         this.kindTamwenValue = kindTamwenValue;
     }
 
+    @Column(name = "KIND_LOWEST_VALUE")
     public Integer getKindLowestValue() {
         return kindLowestValue;
     }
@@ -139,6 +138,7 @@ public class GoodsKind implements Serializable {
         this.kindLowestValue = kindLowestValue;
     }
 
+    @Column(name = "KIND_HEIGHST_VALUE")
     public Integer getKindHeighstValue() {
         return kindHeighstValue;
     }
@@ -147,6 +147,7 @@ public class GoodsKind implements Serializable {
         this.kindHeighstValue = kindHeighstValue;
     }
 
+    @Column(name = "KIND_TABRIZ_VALUE")
     public Integer getKindTabrizValue() {
         return kindTabrizValue;
     }
@@ -179,5 +180,5 @@ public class GoodsKind implements Serializable {
     public String toString() {
         return "back.entities.GoodsKind[ kindId=" + kindId + " ]";
     }
-    
+
 }

@@ -1,27 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "ACCOUNT")
@@ -34,51 +31,19 @@ import javax.persistence.Table;
     @NamedQuery(name = "Account.findByAccountPosition", query = "SELECT a FROM Account a WHERE a.accountPosition = :accountPosition"),
     @NamedQuery(name = "Account.findByDebitFlag", query = "SELECT a FROM Account a WHERE a.debitFlag = :debitFlag")})
 public class Account implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "ACCOUNT_ID")
+
     private Integer accountId;
-    @Column(name = "ACCOUNT_NAME")
     private String accountName;
-    @Column(name = "ACCOUNT_RETURN")
     private Integer accountReturn;
-    @Column(name = "ACCOUNT_TYPE")
     private String accountType;
-    @Column(name = "ACCOUNT_POSITION")
     private String accountPosition;
-    @Column(name = "DEBIT_FLAG")
     private Boolean debitFlag;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
-    private List<BuyingDetails> buyingDetailsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
-    private List<CargoDetails> cargoDetailsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
     private List<DailyDetails> dailyDetailsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
     private List<CashDailySub> cashDailySubList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
     private List<Cargo> cargoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
-    private List<CommissionSalesDetails> commissionSalesDetailsList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.LAZY)
     private Customers customers;
-    @OneToMany(mappedBy = "customerCommisionReturnTo", fetch = FetchType.LAZY)
-    private List<Customers> customersList;
-    @OneToMany(mappedBy = "customerPiceReturnTo", fetch = FetchType.LAZY)
-    private List<Customers> customersList1;
-    @OneToMany(mappedBy = "customerSpecialCommisionReturnTo", fetch = FetchType.LAZY)
-    private List<Customers> customersList2;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
     private List<BuyingGoods> buyingGoodsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
     private List<Invoices> invoicesList;
-    @OneToMany(mappedBy = "interchangeAccountId", fetch = FetchType.LAZY)
-    private List<Invoices> invoicesList1;
-    @OneToMany(mappedBy = "privateCommissionId", fetch = FetchType.LAZY)
-    private List<Invoices> invoicesList2;
-    @OneToMany(mappedBy = "privateMashalAccountId", fetch = FetchType.LAZY)
-    private List<Invoices> invoicesList3;
 
     public Account() {
     }
@@ -87,6 +52,13 @@ public class Account implements Serializable {
         this.accountId = accountId;
     }
 
+    @TableGenerator(name = "AccountGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "ACCOUNT_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "AccountGen")
+    @Id
+    @Column(name = "ACCOUNT_ID")
     public Integer getAccountId() {
         return accountId;
     }
@@ -95,6 +67,7 @@ public class Account implements Serializable {
         this.accountId = accountId;
     }
 
+    @Column(name = "ACCOUNT_NAME")
     public String getAccountName() {
         return accountName;
     }
@@ -103,6 +76,7 @@ public class Account implements Serializable {
         this.accountName = accountName;
     }
 
+    @Column(name = "ACCOUNT_RETURN")
     public Integer getAccountReturn() {
         return accountReturn;
     }
@@ -111,6 +85,7 @@ public class Account implements Serializable {
         this.accountReturn = accountReturn;
     }
 
+    @Column(name = "ACCOUNT_TYPE")
     public String getAccountType() {
         return accountType;
     }
@@ -119,6 +94,7 @@ public class Account implements Serializable {
         this.accountType = accountType;
     }
 
+    @Column(name = "ACCOUNT_POSITION")
     public String getAccountPosition() {
         return accountPosition;
     }
@@ -127,6 +103,7 @@ public class Account implements Serializable {
         this.accountPosition = accountPosition;
     }
 
+    @Column(name = "DEBIT_FLAG")
     public Boolean getDebitFlag() {
         return debitFlag;
     }
@@ -135,22 +112,7 @@ public class Account implements Serializable {
         this.debitFlag = debitFlag;
     }
 
-    public List<BuyingDetails> getBuyingDetailsList() {
-        return buyingDetailsList;
-    }
-
-    public void setBuyingDetailsList(List<BuyingDetails> buyingDetailsList) {
-        this.buyingDetailsList = buyingDetailsList;
-    }
-
-    public List<CargoDetails> getCargoDetailsList() {
-        return cargoDetailsList;
-    }
-
-    public void setCargoDetailsList(List<CargoDetails> cargoDetailsList) {
-        this.cargoDetailsList = cargoDetailsList;
-    }
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
     public List<DailyDetails> getDailyDetailsList() {
         return dailyDetailsList;
     }
@@ -159,6 +121,7 @@ public class Account implements Serializable {
         this.dailyDetailsList = dailyDetailsList;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
     public List<CashDailySub> getCashDailySubList() {
         return cashDailySubList;
     }
@@ -167,6 +130,7 @@ public class Account implements Serializable {
         this.cashDailySubList = cashDailySubList;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
     public List<Cargo> getCargoList() {
         return cargoList;
     }
@@ -175,14 +139,7 @@ public class Account implements Serializable {
         this.cargoList = cargoList;
     }
 
-    public List<CommissionSalesDetails> getCommissionSalesDetailsList() {
-        return commissionSalesDetailsList;
-    }
-
-    public void setCommissionSalesDetailsList(List<CommissionSalesDetails> commissionSalesDetailsList) {
-        this.commissionSalesDetailsList = commissionSalesDetailsList;
-    }
-
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.LAZY)
     public Customers getCustomers() {
         return customers;
     }
@@ -191,30 +148,7 @@ public class Account implements Serializable {
         this.customers = customers;
     }
 
-    public List<Customers> getCustomersList() {
-        return customersList;
-    }
-
-    public void setCustomersList(List<Customers> customersList) {
-        this.customersList = customersList;
-    }
-
-    public List<Customers> getCustomersList1() {
-        return customersList1;
-    }
-
-    public void setCustomersList1(List<Customers> customersList1) {
-        this.customersList1 = customersList1;
-    }
-
-    public List<Customers> getCustomersList2() {
-        return customersList2;
-    }
-
-    public void setCustomersList2(List<Customers> customersList2) {
-        this.customersList2 = customersList2;
-    }
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
     public List<BuyingGoods> getBuyingGoodsList() {
         return buyingGoodsList;
     }
@@ -223,36 +157,13 @@ public class Account implements Serializable {
         this.buyingGoodsList = buyingGoodsList;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId", fetch = FetchType.LAZY)
     public List<Invoices> getInvoicesList() {
         return invoicesList;
     }
 
     public void setInvoicesList(List<Invoices> invoicesList) {
         this.invoicesList = invoicesList;
-    }
-
-    public List<Invoices> getInvoicesList1() {
-        return invoicesList1;
-    }
-
-    public void setInvoicesList1(List<Invoices> invoicesList1) {
-        this.invoicesList1 = invoicesList1;
-    }
-
-    public List<Invoices> getInvoicesList2() {
-        return invoicesList2;
-    }
-
-    public void setInvoicesList2(List<Invoices> invoicesList2) {
-        this.invoicesList2 = invoicesList2;
-    }
-
-    public List<Invoices> getInvoicesList3() {
-        return invoicesList3;
-    }
-
-    public void setInvoicesList3(List<Invoices> invoicesList3) {
-        this.invoicesList3 = invoicesList3;
     }
 
     @Override
@@ -279,5 +190,5 @@ public class Account implements Serializable {
     public String toString() {
         return "back.entities.Account[ accountId=" + accountId + " ]";
     }
-    
+
 }

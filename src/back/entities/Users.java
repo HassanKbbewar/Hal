@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
@@ -21,7 +16,7 @@ import javax.persistence.TableGenerator;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "USERS")
@@ -33,7 +28,6 @@ import javax.persistence.TableGenerator;
     @NamedQuery(name = "Users.findByUserStatus", query = "SELECT u FROM Users u WHERE u.userStatus = :userStatus")})
 public class Users implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     private Integer userId;
     private String userName;
     private String userPassword;

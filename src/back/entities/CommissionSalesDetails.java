@@ -1,25 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "COMMISSION_SALES_DETAILS")
@@ -38,42 +35,21 @@ import javax.persistence.Table;
     @NamedQuery(name = "CommissionSalesDetails.findByMasrofByKilo", query = "SELECT c FROM CommissionSalesDetails c WHERE c.masrofByKilo = :masrofByKilo"),
     @NamedQuery(name = "CommissionSalesDetails.findByMasrofByBox", query = "SELECT c FROM CommissionSalesDetails c WHERE c.masrofByBox = :masrofByBox")})
 public class CommissionSalesDetails implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "SALES_DETAIL_ID")
+
     private Integer salesDetailId;
-    @Column(name = "PEICE_COUNT")
     private Integer peiceCount;
-    @Basic(optional = false)
-    @Column(name = "KIND_NAME")
     private String kindName;
-    @Column(name = "BOX_NUMBER")
     private Integer boxNumber;
-    @Column(name = "WEIGHT")
     private Integer weight;
-    @Column(name = "PRICE")
     private Integer price;
-    @Column(name = "SALE_TYPE")
     private String saleType;
-    @Column(name = "DEBIT_SALE")
     private Boolean debitSale;
-    @Column(name = "MASROF")
     private Integer masrof;
-    @Column(name = "CASHEIR_NAME")
     private String casheirName;
-    @Column(name = "MASROF_BY_KILO")
     private Integer masrofByKilo;
-    @Column(name = "MASROF_BY_BOX")
     private Integer masrofByBox;
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account accountId;
-    @JoinColumn(name = "CLIENT_ID", referencedColumnName = "BUYERS_CUSTOMERS_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
     private BuyersCustomers clientId;
-    @JoinColumn(name = "COMMISSION_SALES_ID", referencedColumnName = "COMMISSION_SALES_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CommissionSales commissionSalesId;
 
     public CommissionSalesDetails() {
@@ -83,11 +59,13 @@ public class CommissionSalesDetails implements Serializable {
         this.salesDetailId = salesDetailId;
     }
 
-    public CommissionSalesDetails(Integer salesDetailId, String kindName) {
-        this.salesDetailId = salesDetailId;
-        this.kindName = kindName;
-    }
-
+    @TableGenerator(name = "CommissionSalesDetailsGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "COMMISSION_SALES_DETAILS_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "CommissionSalesDetailsGen")
+    @Id
+    @Column(name = "SALES_DETAIL_ID")
     public Integer getSalesDetailId() {
         return salesDetailId;
     }
@@ -96,6 +74,7 @@ public class CommissionSalesDetails implements Serializable {
         this.salesDetailId = salesDetailId;
     }
 
+    @Column(name = "PEICE_COUNT")
     public Integer getPeiceCount() {
         return peiceCount;
     }
@@ -104,6 +83,7 @@ public class CommissionSalesDetails implements Serializable {
         this.peiceCount = peiceCount;
     }
 
+    @Column(name = "KIND_NAME")
     public String getKindName() {
         return kindName;
     }
@@ -112,6 +92,7 @@ public class CommissionSalesDetails implements Serializable {
         this.kindName = kindName;
     }
 
+    @Column(name = "BOX_NUMBER")
     public Integer getBoxNumber() {
         return boxNumber;
     }
@@ -120,6 +101,7 @@ public class CommissionSalesDetails implements Serializable {
         this.boxNumber = boxNumber;
     }
 
+    @Column(name = "WEIGHT")
     public Integer getWeight() {
         return weight;
     }
@@ -128,6 +110,7 @@ public class CommissionSalesDetails implements Serializable {
         this.weight = weight;
     }
 
+    @Column(name = "PRICE")
     public Integer getPrice() {
         return price;
     }
@@ -136,6 +119,7 @@ public class CommissionSalesDetails implements Serializable {
         this.price = price;
     }
 
+    @Column(name = "SALE_TYPE")
     public String getSaleType() {
         return saleType;
     }
@@ -144,6 +128,7 @@ public class CommissionSalesDetails implements Serializable {
         this.saleType = saleType;
     }
 
+    @Column(name = "DEBIT_SALE")
     public Boolean getDebitSale() {
         return debitSale;
     }
@@ -152,6 +137,7 @@ public class CommissionSalesDetails implements Serializable {
         this.debitSale = debitSale;
     }
 
+    @Column(name = "MASROF")
     public Integer getMasrof() {
         return masrof;
     }
@@ -160,6 +146,7 @@ public class CommissionSalesDetails implements Serializable {
         this.masrof = masrof;
     }
 
+    @Column(name = "CASHEIR_NAME")
     public String getCasheirName() {
         return casheirName;
     }
@@ -168,6 +155,7 @@ public class CommissionSalesDetails implements Serializable {
         this.casheirName = casheirName;
     }
 
+    @Column(name = "MASROF_BY_KILO")
     public Integer getMasrofByKilo() {
         return masrofByKilo;
     }
@@ -176,6 +164,7 @@ public class CommissionSalesDetails implements Serializable {
         this.masrofByKilo = masrofByKilo;
     }
 
+    @Column(name = "MASROF_BY_BOX")
     public Integer getMasrofByBox() {
         return masrofByBox;
     }
@@ -184,6 +173,8 @@ public class CommissionSalesDetails implements Serializable {
         this.masrofByBox = masrofByBox;
     }
 
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public Account getAccountId() {
         return accountId;
     }
@@ -192,6 +183,8 @@ public class CommissionSalesDetails implements Serializable {
         this.accountId = accountId;
     }
 
+    @JoinColumn(name = "CLIENT_ID", referencedColumnName = "BUYERS_CUSTOMERS_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     public BuyersCustomers getClientId() {
         return clientId;
     }
@@ -200,6 +193,8 @@ public class CommissionSalesDetails implements Serializable {
         this.clientId = clientId;
     }
 
+    @JoinColumn(name = "COMMISSION_SALES_ID", referencedColumnName = "COMMISSION_SALES_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public CommissionSales getCommissionSalesId() {
         return commissionSalesId;
     }
@@ -232,5 +227,5 @@ public class CommissionSalesDetails implements Serializable {
     public String toString() {
         return "back.entities.CommissionSalesDetails[ salesDetailId=" + salesDetailId + " ]";
     }
-    
+
 }

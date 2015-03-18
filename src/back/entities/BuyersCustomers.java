@@ -1,26 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "BUYERS_CUSTOMERS")
@@ -28,50 +25,25 @@ import javax.persistence.Table;
     @NamedQuery(name = "BuyersCustomers.findAll", query = "SELECT b FROM BuyersCustomers b"),
     @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersId", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersId = :buyersCustomersId"),
     @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersName", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersName = :buyersCustomersName"),
-    @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersResponsebleName", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersResponsebleName = :buyersCustomersResponsebleName"),
-    @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersPhone1", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersPhone1 = :buyersCustomersPhone1"),
-    @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersPhone2", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersPhone2 = :buyersCustomersPhone2"),
-    @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersFax", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersFax = :buyersCustomersFax"),
-    @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersEmail", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersEmail = :buyersCustomersEmail"),
-    @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersLimit", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersLimit = :buyersCustomersLimit"),
     @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersCity", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersCity = :buyersCustomersCity"),
-    @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersAddress", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersAddress = :buyersCustomersAddress"),
-    @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersNote", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersNote = :buyersCustomersNote"),
     @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersType", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersType = :buyersCustomersType"),
     @NamedQuery(name = "BuyersCustomers.findByBuyersCustomersFreezStatus", query = "SELECT b FROM BuyersCustomers b WHERE b.buyersCustomersFreezStatus = :buyersCustomersFreezStatus")})
 public class BuyersCustomers implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "BUYERS_CUSTOMERS_ID")
+
     private Integer buyersCustomersId;
-    @Column(name = "BUYERS_CUSTOMERS_NAME")
     private String buyersCustomersName;
-    @Column(name = "BUYERS_CUSTOMERS_RESPONSEBLE_NAME")
     private String buyersCustomersResponsebleName;
-    @Column(name = "BUYERS_CUSTOMERS_PHONE1")
     private String buyersCustomersPhone1;
-    @Column(name = "BUYERS_CUSTOMERS_PHONE2")
     private String buyersCustomersPhone2;
-    @Column(name = "BUYERS_CUSTOMERS_FAX")
     private String buyersCustomersFax;
-    @Column(name = "BUYERS_CUSTOMERS_EMAIL")
     private String buyersCustomersEmail;
-    @Column(name = "BUYERS_CUSTOMERS_LIMIT")
     private Integer buyersCustomersLimit;
-    @Column(name = "BUYERS_CUSTOMERS_CITY")
     private String buyersCustomersCity;
-    @Column(name = "BUYERS_CUSTOMERS_ADDRESS")
     private String buyersCustomersAddress;
-    @Column(name = "BUYERS_CUSTOMERS_NOTE")
     private String buyersCustomersNote;
-    @Column(name = "BUYERS_CUSTOMERS_TYPE")
     private String buyersCustomersType;
-    @Column(name = "BUYERS_CUSTOMERS_FREEZ_STATUS")
     private Boolean buyersCustomersFreezStatus;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientId", fetch = FetchType.LAZY)
     private List<DebitCollect> debitCollectList;
-    @OneToMany(mappedBy = "clientId", fetch = FetchType.LAZY)
     private List<CommissionSalesDetails> commissionSalesDetailsList;
 
     public BuyersCustomers() {
@@ -81,6 +53,13 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersId = buyersCustomersId;
     }
 
+    @TableGenerator(name = "BuyersCustomersGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "BUYERS_CUSTOMERS_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "BuyersCustomersGen")
+    @Id
+    @Column(name = "BUYERS_CUSTOMERS_ID")
     public Integer getBuyersCustomersId() {
         return buyersCustomersId;
     }
@@ -89,6 +68,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersId = buyersCustomersId;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_NAME")
     public String getBuyersCustomersName() {
         return buyersCustomersName;
     }
@@ -97,6 +77,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersName = buyersCustomersName;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_RESPONSEBLE_NAME")
     public String getBuyersCustomersResponsebleName() {
         return buyersCustomersResponsebleName;
     }
@@ -105,6 +86,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersResponsebleName = buyersCustomersResponsebleName;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_PHONE1")
     public String getBuyersCustomersPhone1() {
         return buyersCustomersPhone1;
     }
@@ -113,6 +95,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersPhone1 = buyersCustomersPhone1;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_PHONE2")
     public String getBuyersCustomersPhone2() {
         return buyersCustomersPhone2;
     }
@@ -121,6 +104,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersPhone2 = buyersCustomersPhone2;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_FAX")
     public String getBuyersCustomersFax() {
         return buyersCustomersFax;
     }
@@ -129,6 +113,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersFax = buyersCustomersFax;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_EMAIL")
     public String getBuyersCustomersEmail() {
         return buyersCustomersEmail;
     }
@@ -137,6 +122,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersEmail = buyersCustomersEmail;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_LIMIT")
     public Integer getBuyersCustomersLimit() {
         return buyersCustomersLimit;
     }
@@ -145,6 +131,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersLimit = buyersCustomersLimit;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_CITY")
     public String getBuyersCustomersCity() {
         return buyersCustomersCity;
     }
@@ -153,6 +140,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersCity = buyersCustomersCity;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_ADDRESS")
     public String getBuyersCustomersAddress() {
         return buyersCustomersAddress;
     }
@@ -161,6 +149,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersAddress = buyersCustomersAddress;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_NOTE")
     public String getBuyersCustomersNote() {
         return buyersCustomersNote;
     }
@@ -169,6 +158,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersNote = buyersCustomersNote;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_TYPE")
     public String getBuyersCustomersType() {
         return buyersCustomersType;
     }
@@ -177,6 +167,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersType = buyersCustomersType;
     }
 
+    @Column(name = "BUYERS_CUSTOMERS_FREEZ_STATUS")
     public Boolean getBuyersCustomersFreezStatus() {
         return buyersCustomersFreezStatus;
     }
@@ -185,6 +176,7 @@ public class BuyersCustomers implements Serializable {
         this.buyersCustomersFreezStatus = buyersCustomersFreezStatus;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientId", fetch = FetchType.LAZY)
     public List<DebitCollect> getDebitCollectList() {
         return debitCollectList;
     }
@@ -193,6 +185,7 @@ public class BuyersCustomers implements Serializable {
         this.debitCollectList = debitCollectList;
     }
 
+    @OneToMany(mappedBy = "clientId", fetch = FetchType.LAZY)
     public List<CommissionSalesDetails> getCommissionSalesDetailsList() {
         return commissionSalesDetailsList;
     }
@@ -225,5 +218,5 @@ public class BuyersCustomers implements Serializable {
     public String toString() {
         return "back.entities.BuyersCustomers[ buyersCustomersId=" + buyersCustomersId + " ]";
     }
-    
+
 }

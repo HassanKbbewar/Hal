@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,7 +10,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "SEQUENCE")
@@ -25,12 +19,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Sequence.findBySeqName", query = "SELECT s FROM Sequence s WHERE s.seqName = :seqName"),
     @NamedQuery(name = "Sequence.findBySeqCount", query = "SELECT s FROM Sequence s WHERE s.seqCount = :seqCount")})
 public class Sequence implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "SEQ_NAME")
+
     private String seqName;
-    @Column(name = "SEQ_COUNT")
     private Integer seqCount;
 
     public Sequence() {
@@ -40,6 +30,8 @@ public class Sequence implements Serializable {
         this.seqName = seqName;
     }
 
+    @Id
+    @Column(name = "SEQ_NAME")
     public String getSeqName() {
         return seqName;
     }
@@ -48,6 +40,7 @@ public class Sequence implements Serializable {
         this.seqName = seqName;
     }
 
+    @Column(name = "SEQ_COUNT")
     public Integer getSeqCount() {
         return seqCount;
     }
@@ -80,5 +73,5 @@ public class Sequence implements Serializable {
     public String toString() {
         return "back.entities.Sequence[ seqName=" + seqName + " ]";
     }
-    
+
 }

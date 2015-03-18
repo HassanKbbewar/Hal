@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,12 +16,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "BUYING_GOODS")
@@ -35,23 +32,12 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "BuyingGoods.findByBuyingDate", query = "SELECT b FROM BuyingGoods b WHERE b.buyingDate = :buyingDate"),
     @NamedQuery(name = "BuyingGoods.findByBuyingStatus", query = "SELECT b FROM BuyingGoods b WHERE b.buyingStatus = :buyingStatus")})
 public class BuyingGoods implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "BUYING_ID")
+
     private Integer buyingId;
-    @Column(name = "BUYING_DATE")
-    @Temporal(TemporalType.DATE)
     private Date buyingDate;
-    @Column(name = "BUYING_STATUS")
     private Boolean buyingStatus;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buyingId", fetch = FetchType.LAZY)
     private List<BuyingDetails> buyingDetailsList;
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account accountId;
-    @JoinColumn(name = "DAILY_ID", referencedColumnName = "DAILY_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Daily dailyId;
 
     public BuyingGoods() {
@@ -61,6 +47,13 @@ public class BuyingGoods implements Serializable {
         this.buyingId = buyingId;
     }
 
+    @TableGenerator(name = "BuyingGoodsGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "BUYING_GOODS_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "BuyingGoodsGen")
+    @Id
+    @Column(name = "BUYING_ID")
     public Integer getBuyingId() {
         return buyingId;
     }
@@ -69,6 +62,8 @@ public class BuyingGoods implements Serializable {
         this.buyingId = buyingId;
     }
 
+    @Column(name = "BUYING_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getBuyingDate() {
         return buyingDate;
     }
@@ -77,6 +72,7 @@ public class BuyingGoods implements Serializable {
         this.buyingDate = buyingDate;
     }
 
+    @Column(name = "BUYING_STATUS")
     public Boolean getBuyingStatus() {
         return buyingStatus;
     }
@@ -85,6 +81,7 @@ public class BuyingGoods implements Serializable {
         this.buyingStatus = buyingStatus;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buyingId", fetch = FetchType.LAZY)
     public List<BuyingDetails> getBuyingDetailsList() {
         return buyingDetailsList;
     }
@@ -93,6 +90,8 @@ public class BuyingGoods implements Serializable {
         this.buyingDetailsList = buyingDetailsList;
     }
 
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public Account getAccountId() {
         return accountId;
     }
@@ -101,6 +100,8 @@ public class BuyingGoods implements Serializable {
         this.accountId = accountId;
     }
 
+    @JoinColumn(name = "DAILY_ID", referencedColumnName = "DAILY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     public Daily getDailyId() {
         return dailyId;
     }
@@ -133,5 +134,5 @@ public class BuyingGoods implements Serializable {
     public String toString() {
         return "back.entities.BuyingGoods[ buyingId=" + buyingId + " ]";
     }
-    
+
 }

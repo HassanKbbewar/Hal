@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
@@ -18,7 +13,7 @@ import javax.persistence.TableGenerator;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "BALANCE")
@@ -31,7 +26,6 @@ import javax.persistence.TableGenerator;
     @NamedQuery(name = "Balance.findByFinalDebit", query = "SELECT b FROM Balance b WHERE b.finalDebit = :finalDebit")})
 public class Balance implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     private Integer balanceId;
     private Integer accountId;
     private String accountName;

@@ -1,25 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "CARGO_DETAILS")
@@ -34,31 +31,16 @@ import javax.persistence.Table;
     @NamedQuery(name = "CargoDetails.findByMasrofCash", query = "SELECT c FROM CargoDetails c WHERE c.masrofCash = :masrofCash"),
     @NamedQuery(name = "CargoDetails.findBySaleType", query = "SELECT c FROM CargoDetails c WHERE c.saleType = :saleType")})
 public class CargoDetails implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "DETAIL_ID")
+
     private Integer detailId;
-    @Basic(optional = false)
-    @Column(name = "KIND_NAME")
     private String kindName;
-    @Column(name = "BOX_NUMBER")
     private Integer boxNumber;
-    @Column(name = "WEIGHT")
     private Integer weight;
-    @Column(name = "PRICE")
     private Integer price;
-    @Column(name = "MASROF")
     private Integer masrof;
-    @Column(name = "MASROF_CASH")
     private Integer masrofCash;
-    @Column(name = "SALE_TYPE")
     private String saleType;
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account accountId;
-    @JoinColumn(name = "CARGO_ID", referencedColumnName = "CARGO_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cargo cargoId;
 
     public CargoDetails() {
@@ -68,11 +50,13 @@ public class CargoDetails implements Serializable {
         this.detailId = detailId;
     }
 
-    public CargoDetails(Integer detailId, String kindName) {
-        this.detailId = detailId;
-        this.kindName = kindName;
-    }
-
+    @TableGenerator(name = "CargoDetailsGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "CARGO_DETAILS_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "CargoDetailsGen")
+    @Id
+    @Column(name = "DETAIL_ID")
     public Integer getDetailId() {
         return detailId;
     }
@@ -81,6 +65,7 @@ public class CargoDetails implements Serializable {
         this.detailId = detailId;
     }
 
+    @Column(name = "KIND_NAME")
     public String getKindName() {
         return kindName;
     }
@@ -89,6 +74,7 @@ public class CargoDetails implements Serializable {
         this.kindName = kindName;
     }
 
+    @Column(name = "BOX_NUMBER")
     public Integer getBoxNumber() {
         return boxNumber;
     }
@@ -97,6 +83,7 @@ public class CargoDetails implements Serializable {
         this.boxNumber = boxNumber;
     }
 
+    @Column(name = "WEIGHT")
     public Integer getWeight() {
         return weight;
     }
@@ -105,6 +92,7 @@ public class CargoDetails implements Serializable {
         this.weight = weight;
     }
 
+    @Column(name = "PRICE")
     public Integer getPrice() {
         return price;
     }
@@ -113,6 +101,7 @@ public class CargoDetails implements Serializable {
         this.price = price;
     }
 
+    @Column(name = "MASROF")
     public Integer getMasrof() {
         return masrof;
     }
@@ -121,6 +110,7 @@ public class CargoDetails implements Serializable {
         this.masrof = masrof;
     }
 
+    @Column(name = "MASROF_CASH")
     public Integer getMasrofCash() {
         return masrofCash;
     }
@@ -129,6 +119,7 @@ public class CargoDetails implements Serializable {
         this.masrofCash = masrofCash;
     }
 
+    @Column(name = "SALE_TYPE")
     public String getSaleType() {
         return saleType;
     }
@@ -137,6 +128,8 @@ public class CargoDetails implements Serializable {
         this.saleType = saleType;
     }
 
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public Account getAccountId() {
         return accountId;
     }
@@ -145,6 +138,8 @@ public class CargoDetails implements Serializable {
         this.accountId = accountId;
     }
 
+    @JoinColumn(name = "CARGO_ID", referencedColumnName = "CARGO_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public Cargo getCargoId() {
         return cargoId;
     }
@@ -177,5 +172,5 @@ public class CargoDetails implements Serializable {
     public String toString() {
         return "back.entities.CargoDetails[ detailId=" + detailId + " ]";
     }
-    
+
 }

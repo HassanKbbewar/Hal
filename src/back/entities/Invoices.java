@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,12 +16,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "INVOICES")
@@ -50,65 +47,31 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Invoices.findByInvoicePrintStatus", query = "SELECT i FROM Invoices i WHERE i.invoicePrintStatus = :invoicePrintStatus"),
     @NamedQuery(name = "Invoices.findByInvoicePrintDate", query = "SELECT i FROM Invoices i WHERE i.invoicePrintDate = :invoicePrintDate")})
 public class Invoices implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "INVOICE_ID")
+
     private Integer invoiceId;
-    @Column(name = "WHOLE_PEICE_COUNT")
     private Integer wholePeiceCount;
-    @Column(name = "SALED_PEICE_COUNT")
     private Integer saledPeiceCount;
-    @Column(name = "COMMISSION_PERCENTAGE")
     private Short commissionPercentage;
-    @Column(name = "PAID_IN_HAND")
     private Integer paidInHand;
-    @Column(name = "CAR_TRANSIT")
     private Integer carTransit;
-    @Column(name = "TABRIZ_PERCENTAGE")
     private Integer tabrizPercentage;
-    @Column(name = "OTHER_PAID")
     private Integer otherPaid;
-    @Column(name = "NOTE")
     private String note;
-    @Column(name = "INTERCHANGE_PERSON_STATUS")
     private Boolean interchangePersonStatus;
-    @Column(name = "INTERCHANGE_PERCENTAGE")
     private Short interchangePercentage;
-    @Column(name = "COMMESSION")
     private Integer commession;
-    @Column(name = "TABRIZ")
     private Integer tabriz;
-    @Column(name = "INVOICE_VALUE")
     private Integer invoiceValue;
-    @Column(name = "INVOICE_FINAL_VALUE")
     private Integer invoiceFinalValue;
-    @Column(name = "INVOICE_CASH_STATUS")
     private Boolean invoiceCashStatus;
-    @Column(name = "INVOICE_PRINT_STATUS")
     private Boolean invoicePrintStatus;
-    @Column(name = "INVOICE_PRINT_DATE")
-    @Temporal(TemporalType.DATE)
     private Date invoicePrintDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoiceId", fetch = FetchType.LAZY)
     private List<InvoiceDetails> invoiceDetailsList;
-    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Account accountId;
-    @JoinColumn(name = "INTERCHANGE_ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Account interchangeAccountId;
-    @JoinColumn(name = "PRIVATE_COMMISSION_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Account privateCommissionId;
-    @JoinColumn(name = "PRIVATE_MASHAL_ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Account privateMashalAccountId;
-    @JoinColumn(name = "COMMISSION_SALES_ID", referencedColumnName = "COMMISSION_SALES_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CommissionSales commissionSalesId;
-    @JoinColumn(name = "MERGE_ID", referencedColumnName = "MERGE_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
     private MergedInvoices mergeId;
 
     public Invoices() {
@@ -118,6 +81,13 @@ public class Invoices implements Serializable {
         this.invoiceId = invoiceId;
     }
 
+    @TableGenerator(name = "InvoicesGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "INVOICES_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "InvoicesGen")
+    @Id
+    @Column(name = "INVOICE_ID")
     public Integer getInvoiceId() {
         return invoiceId;
     }
@@ -126,6 +96,7 @@ public class Invoices implements Serializable {
         this.invoiceId = invoiceId;
     }
 
+    @Column(name = "WHOLE_PEICE_COUNT")
     public Integer getWholePeiceCount() {
         return wholePeiceCount;
     }
@@ -134,6 +105,7 @@ public class Invoices implements Serializable {
         this.wholePeiceCount = wholePeiceCount;
     }
 
+    @Column(name = "SALED_PEICE_COUNT")
     public Integer getSaledPeiceCount() {
         return saledPeiceCount;
     }
@@ -142,6 +114,7 @@ public class Invoices implements Serializable {
         this.saledPeiceCount = saledPeiceCount;
     }
 
+    @Column(name = "COMMISSION_PERCENTAGE")
     public Short getCommissionPercentage() {
         return commissionPercentage;
     }
@@ -150,6 +123,7 @@ public class Invoices implements Serializable {
         this.commissionPercentage = commissionPercentage;
     }
 
+    @Column(name = "PAID_IN_HAND")
     public Integer getPaidInHand() {
         return paidInHand;
     }
@@ -158,6 +132,7 @@ public class Invoices implements Serializable {
         this.paidInHand = paidInHand;
     }
 
+    @Column(name = "CAR_TRANSIT")
     public Integer getCarTransit() {
         return carTransit;
     }
@@ -166,6 +141,7 @@ public class Invoices implements Serializable {
         this.carTransit = carTransit;
     }
 
+    @Column(name = "TABRIZ_PERCENTAGE")
     public Integer getTabrizPercentage() {
         return tabrizPercentage;
     }
@@ -174,6 +150,7 @@ public class Invoices implements Serializable {
         this.tabrizPercentage = tabrizPercentage;
     }
 
+    @Column(name = "OTHER_PAID")
     public Integer getOtherPaid() {
         return otherPaid;
     }
@@ -182,6 +159,7 @@ public class Invoices implements Serializable {
         this.otherPaid = otherPaid;
     }
 
+    @Column(name = "NOTE")
     public String getNote() {
         return note;
     }
@@ -190,6 +168,7 @@ public class Invoices implements Serializable {
         this.note = note;
     }
 
+    @Column(name = "INTERCHANGE_PERSON_STATUS")
     public Boolean getInterchangePersonStatus() {
         return interchangePersonStatus;
     }
@@ -198,6 +177,7 @@ public class Invoices implements Serializable {
         this.interchangePersonStatus = interchangePersonStatus;
     }
 
+    @Column(name = "INTERCHANGE_PERCENTAGE")
     public Short getInterchangePercentage() {
         return interchangePercentage;
     }
@@ -206,6 +186,7 @@ public class Invoices implements Serializable {
         this.interchangePercentage = interchangePercentage;
     }
 
+    @Column(name = "COMMESSION")
     public Integer getCommession() {
         return commession;
     }
@@ -214,6 +195,7 @@ public class Invoices implements Serializable {
         this.commession = commession;
     }
 
+    @Column(name = "TABRIZ")
     public Integer getTabriz() {
         return tabriz;
     }
@@ -222,6 +204,7 @@ public class Invoices implements Serializable {
         this.tabriz = tabriz;
     }
 
+    @Column(name = "INVOICE_VALUE")
     public Integer getInvoiceValue() {
         return invoiceValue;
     }
@@ -230,6 +213,7 @@ public class Invoices implements Serializable {
         this.invoiceValue = invoiceValue;
     }
 
+    @Column(name = "INVOICE_FINAL_VALUE")
     public Integer getInvoiceFinalValue() {
         return invoiceFinalValue;
     }
@@ -238,6 +222,7 @@ public class Invoices implements Serializable {
         this.invoiceFinalValue = invoiceFinalValue;
     }
 
+    @Column(name = "INVOICE_CASH_STATUS")
     public Boolean getInvoiceCashStatus() {
         return invoiceCashStatus;
     }
@@ -246,6 +231,7 @@ public class Invoices implements Serializable {
         this.invoiceCashStatus = invoiceCashStatus;
     }
 
+    @Column(name = "INVOICE_PRINT_STATUS")
     public Boolean getInvoicePrintStatus() {
         return invoicePrintStatus;
     }
@@ -254,6 +240,8 @@ public class Invoices implements Serializable {
         this.invoicePrintStatus = invoicePrintStatus;
     }
 
+    @Column(name = "INVOICE_PRINT_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getInvoicePrintDate() {
         return invoicePrintDate;
     }
@@ -262,6 +250,7 @@ public class Invoices implements Serializable {
         this.invoicePrintDate = invoicePrintDate;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoiceId", fetch = FetchType.LAZY)
     public List<InvoiceDetails> getInvoiceDetailsList() {
         return invoiceDetailsList;
     }
@@ -270,6 +259,8 @@ public class Invoices implements Serializable {
         this.invoiceDetailsList = invoiceDetailsList;
     }
 
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public Account getAccountId() {
         return accountId;
     }
@@ -278,6 +269,8 @@ public class Invoices implements Serializable {
         this.accountId = accountId;
     }
 
+    @JoinColumn(name = "INTERCHANGE_ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     public Account getInterchangeAccountId() {
         return interchangeAccountId;
     }
@@ -286,6 +279,8 @@ public class Invoices implements Serializable {
         this.interchangeAccountId = interchangeAccountId;
     }
 
+    @JoinColumn(name = "PRIVATE_COMMISSION_ID", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     public Account getPrivateCommissionId() {
         return privateCommissionId;
     }
@@ -294,6 +289,8 @@ public class Invoices implements Serializable {
         this.privateCommissionId = privateCommissionId;
     }
 
+    @JoinColumn(name = "PRIVATE_MASHAL_ACCOUNT_ID", referencedColumnName = "ACCOUNT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     public Account getPrivateMashalAccountId() {
         return privateMashalAccountId;
     }
@@ -302,6 +299,8 @@ public class Invoices implements Serializable {
         this.privateMashalAccountId = privateMashalAccountId;
     }
 
+    @JoinColumn(name = "COMMISSION_SALES_ID", referencedColumnName = "COMMISSION_SALES_ID")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     public CommissionSales getCommissionSalesId() {
         return commissionSalesId;
     }
@@ -310,6 +309,8 @@ public class Invoices implements Serializable {
         this.commissionSalesId = commissionSalesId;
     }
 
+    @JoinColumn(name = "MERGE_ID", referencedColumnName = "MERGE_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     public MergedInvoices getMergeId() {
         return mergeId;
     }
@@ -342,5 +343,5 @@ public class Invoices implements Serializable {
     public String toString() {
         return "back.entities.Invoices[ invoiceId=" + invoiceId + " ]";
     }
-    
+
 }

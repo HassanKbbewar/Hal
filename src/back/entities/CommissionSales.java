@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package back.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,12 +16,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  *
- * @author Hassa_000
+ * @author Hassan
  */
 @Entity
 @Table(name = "COMMISSION_SALES")
@@ -35,25 +32,12 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "CommissionSales.findByCommissionSalesDate", query = "SELECT c FROM CommissionSales c WHERE c.commissionSalesDate = :commissionSalesDate"),
     @NamedQuery(name = "CommissionSales.findByTarhelStatus", query = "SELECT c FROM CommissionSales c WHERE c.tarhelStatus = :tarhelStatus")})
 public class CommissionSales implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @Column(name = "COMMISSION_SALES_ID")
+
     private Integer commissionSalesId;
-    @Basic(optional = false)
-    @Column(name = "COMMISSION_SALES_DATE")
-    @Temporal(TemporalType.DATE)
     private Date commissionSalesDate;
-    @Column(name = "TARHEL_STATUS")
     private Boolean tarhelStatus;
-    @JoinColumn(name = "DAILY_ID", referencedColumnName = "DAILY_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
     private Daily dailyId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commissionSalesId", fetch = FetchType.LAZY)
-    private List<DebitCollect> debitCollectList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commissionSalesId", fetch = FetchType.LAZY)
     private List<CommissionSalesDetails> commissionSalesDetailsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commissionSalesId", fetch = FetchType.LAZY)
     private List<Invoices> invoicesList;
 
     public CommissionSales() {
@@ -68,6 +52,13 @@ public class CommissionSales implements Serializable {
         this.commissionSalesDate = commissionSalesDate;
     }
 
+    @TableGenerator(name = "CommissionSalesGen", table = "SEQUENCE",
+            pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
+            pkColumnValue = "COMMISSION_SALES_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE,
+            generator = "CommissionSalesGen")
+    @Id
+    @Column(name = "COMMISSION_SALES_ID")
     public Integer getCommissionSalesId() {
         return commissionSalesId;
     }
@@ -76,6 +67,8 @@ public class CommissionSales implements Serializable {
         this.commissionSalesId = commissionSalesId;
     }
 
+    @Column(name = "COMMISSION_SALES_DATE")
+    @Temporal(TemporalType.DATE)
     public Date getCommissionSalesDate() {
         return commissionSalesDate;
     }
@@ -84,6 +77,7 @@ public class CommissionSales implements Serializable {
         this.commissionSalesDate = commissionSalesDate;
     }
 
+    @Column(name = "TARHEL_STATUS")
     public Boolean getTarhelStatus() {
         return tarhelStatus;
     }
@@ -92,6 +86,8 @@ public class CommissionSales implements Serializable {
         this.tarhelStatus = tarhelStatus;
     }
 
+    @JoinColumn(name = "DAILY_ID", referencedColumnName = "DAILY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     public Daily getDailyId() {
         return dailyId;
     }
@@ -100,14 +96,7 @@ public class CommissionSales implements Serializable {
         this.dailyId = dailyId;
     }
 
-    public List<DebitCollect> getDebitCollectList() {
-        return debitCollectList;
-    }
-
-    public void setDebitCollectList(List<DebitCollect> debitCollectList) {
-        this.debitCollectList = debitCollectList;
-    }
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commissionSalesId", fetch = FetchType.LAZY)
     public List<CommissionSalesDetails> getCommissionSalesDetailsList() {
         return commissionSalesDetailsList;
     }
@@ -116,6 +105,7 @@ public class CommissionSales implements Serializable {
         this.commissionSalesDetailsList = commissionSalesDetailsList;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commissionSalesId", fetch = FetchType.LAZY)
     public List<Invoices> getInvoicesList() {
         return invoicesList;
     }
@@ -148,5 +138,5 @@ public class CommissionSales implements Serializable {
     public String toString() {
         return "back.entities.CommissionSales[ commissionSalesId=" + commissionSalesId + " ]";
     }
-    
+
 }
